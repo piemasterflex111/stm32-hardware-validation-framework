@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -205,3 +206,17 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+=======
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# OS/editor
+.vscode/
+Thumbs.db
+Desktop.ini
+
+# Generated outputs
+results/
+>>>>>>> 3586dc5 (chore: add gitignore)
