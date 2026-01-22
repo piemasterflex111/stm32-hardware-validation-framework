@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -219,4 +219,10 @@ Desktop.ini
 
 # Generated outputs
 results/
+<<<<<<< HEAD
 >>>>>>> 3586dc5 (chore: add gitignore)
+=======
+
+# Local scratch artifacts
+_write*.txt
+
