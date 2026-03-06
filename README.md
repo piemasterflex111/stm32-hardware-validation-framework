@@ -1,44 +1,22 @@
-## Contents
-
-- Architecture
-- Project Structure
-- Running Tests
-- Example Test Flow
-- Key Capabilities
-- Future Improvements
-
 # STM32 Hardware Validation Framework
 
 Python-based validation environment for testing embedded hardware interfaces.
 
 This project demonstrates how Python automation can interact with embedded systems through **UART and CAN communication**, enabling automated device validation similar to workflows used in hardware test and firmware validation environments.
 
-The framework provides a minimal structure for:
-
-- Python-based test automation
-- Hardware interface abstraction
-- Embedded device communication
-- Structured validation tests
-
 ---
 
 ## Architecture
 
-
-Python Test Runner
-│
-▼
-Interface Layer
-(PySerial / python-can)
-│
-▼
-Communication Interfaces
-UART / CAN
-│
-▼
-Embedded Target
-(STM32 Firmware + Sensors)
-
+```mermaid
+flowchart TD
+    A[Python Test Runner] --> B[Interface Layer]
+    B --> C[PySerial / python-can]
+    C --> D[Communication Interfaces]
+    D --> E[UART / CAN]
+    E --> F[Embedded Target]
+    F --> G[STM32 Firmware + Sensors]
+```
 
 The test runner executes validation scripts which interact with embedded devices through Python interface modules.
 
@@ -46,30 +24,30 @@ The test runner executes validation scripts which interact with embedded devices
 
 ## Project Structure
 
-
+```
 src/
-framework/
-uart.py
-can_interface.py
-test_runner.py
+  framework/
+    uart.py
+    can_interface.py
+  test_runner.py
 
 tests/
-test_uart.py
-test_can.py
+  test_uart.py
+  test_can.py
 
 docs/
-documentation
+  documentation
+```
 
-
-**src/framework**
+### src/framework
 
 Contains communication interface modules used to interact with hardware devices.
 
-**tests**
+### tests
 
 Contains validation scripts executed by the test runner.
 
-**docs**
+### docs
 
 Additional documentation and design notes.
 
@@ -79,15 +57,15 @@ Additional documentation and design notes.
 
 Install dependencies:
 
-
+```
 pip install pyserial python-can
-
+```
 
 Run the test runner:
 
-
+```
 python src/test_runner.py
-
+```
 
 The test runner automatically discovers and executes test files located in the `tests/` directory.
 
@@ -95,17 +73,17 @@ The test runner automatically discovers and executes test files located in the `
 
 ## Example Test Flow
 
-1. Python test script sends a command to the device over UART.
-2. STM32 firmware processes the command.
-3. Device returns response data to the host system.
-4. Python validation logic verifies expected results.
-5. Test outcome is logged and reported.
+1. Python test script sends a command to the device over UART  
+2. STM32 firmware processes the command  
+3. Device returns response data to the host system  
+4. Python validation logic verifies expected results  
+5. Test outcome is logged and reported  
 
 ---
 
 ## Example Output
 
-
+```
 Running test_uart
 UART test starting
 Device response: OK
@@ -117,7 +95,7 @@ Received: <CAN message>
 Test summary
 2 tests passed
 0 tests failed
-
+```
 
 ---
 
@@ -133,10 +111,8 @@ Test summary
 
 ## Future Improvements
 
-Planned enhancements include:
-
 - STM32 command protocol integration
-- Sensor validation (e.g., BME280)
+- Sensor validation (BME280)
 - Structured test artifacts (JSON / CSV reports)
 - Integration with lab instruments
 - Continuous test logging
