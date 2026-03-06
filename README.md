@@ -1,3 +1,12 @@
+## Contents
+
+- Architecture
+- Project Structure
+- Running Tests
+- Example Test Flow
+- Key Capabilities
+- Future Improvements
+
 # STM32 Hardware Validation Framework
 
 Python-based validation environment for testing embedded hardware interfaces.
