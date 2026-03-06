@@ -1,31 +1,12 @@
-# STM32 Hardware Validation Framework
+## Overview
 
-Python-based embedded validation framework demonstrating automated testing of an STM32 device via UART.
+This project demonstrates a small embedded hardware validation framework used to automatically test an STM32 microcontroller.
 
-Features
+The system consists of:
 
-- UART command protocol
-- Firmware interrogation (VERSION)
-- Sensor validation (BME280)
-- Automated validation runner
-- Structured artifacts:
-  - CSV results
-  - JSON metadata
-  - Markdown reports
-  - evidence capture
+* STM32 firmware communicating over UART
+* A Python validation runner that sends diagnostic commands
+* Automated validation checks
+* Structured test artifacts (CSV, JSON, Markdown reports)
 
-Architecture
-
-Python Test Runner
-        │
-        ▼
-UART Serial Interface
-        │
-        ▼
-STM32 Firmware
-        │
-        ▼
-I2C Bus
-        │
-        ▼
-BME280 Sensor
+The firmware reads a BME280 temperature sensor over I2C and exposes a simple command interface (`VERSION`, `TEMP`) that the validation runner interrogates.
