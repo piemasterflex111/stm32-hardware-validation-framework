@@ -1,37 +1,20 @@
-from dataclasses import dataclass
-from time import sleep
-from datetime import datetime
+import importlib
+import os
 
-@dataclass
-class TestResult:
-    name: str
-    passed: bool
-    details: str 
+def run_tests():
 
-def test_power_on() -> TestResult:
-    # Simulate a power-on test
-    sleep(0.2)  # Simulating time taken for the test
-    return TestResult(name="Power On Test", passed=True, details="Device powered on successfully.")
+    test_dir = "tests"
 
-def test_communication() -> TestResult:
-    # Simulate a communication test
-    sleep(0.3)  # Simulating time taken for the test
-    return TestResult(name="Communication Test", passed=False, details="Failed to establish communication.")
+    for file in os.listdir(test_dir):
 
-def main():
-    tests = [test_power_on, test_communication]
-    results = []
+        if file.startswith("test_") and file.endswith(".py"):
 
-    for test in tests:
-        result = test()
-        results.append(result)
-        status = "PASSED" if result.passed else "FAILED"
-        print(f"{result.name}: {status} - {result.details}")
+            module_name = file[:-3]
+            module = importlib.import_module(f"tests.{module_name}")
 
-    # Summary
-    passed_tests = sum(1 for r in results if r.passed)
-    total_tests = len(results)
-    print(f"\nTest Summary: {passed_tests}/{total_tests} tests passed.")
+            if hasattr(module, "run"):
+                print(f"Running {module_name}")
+                module.run()
 
 if __name__ == "__main__":
-    main()
+    run_tests()

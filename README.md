@@ -1,34 +1,75 @@
 # STM32 Hardware Validation Framework
 
-Python-based validation environment for testing embedded hardware interfaces.
+Python based validation environment for embedded hardware interfaces.
+
+This project demonstrates how Python automation can interact with
+embedded systems through UART and CAN.
+
+---
 
 ## Architecture
 
 Python Test Runner
-        ↓
-PySerial / python-can
-        ↓
-UART / CAN Interfaces
-        ↓
-STM32 Firmware
-        ↓
-Peripheral Devices
+        |
+        v
+Interface Layer
+(PySerial / python-can)
+        |
+        v
+Communication Interfaces
+UART / CAN
+        |
+        v
+Embedded Target
+(STM32 Firmware + Sensors)
 
-## Capabilities
+---
 
-- UART logging
-- CAN messaging validation
-- Python automation framework
-- Structured debugging workflow
+## Project Structure
 
-## Structure
+src/
+    framework/
+        uart.py
+        can_interface.py
+    test_runner.py
 
-src/        core scripts  
-tests/      validation tests  
-docs/       documentation  
+tests/
+    test_uart.py
+    test_can.py
+
+docs/
+    documentation
+
+---
+
+## Running Tests
+
+Install dependencies
+
+pip install pyserial python-can
+
+Run tests
+
+python src/test_runner.py
+
+---
+
+## Example Output
+
+Running test_uart
+UART test starting
+
+Device response: OK
+
+Running test_can
+CAN test starting
+
+Received: <CAN message>
+
+---
 
 ## Next Steps
 
-- connect real hardware
-- add test runner framework
-- integrate instrument control
+Add real STM32 firmware interaction
+Add sensor validation tests
+Integrate instrument control
