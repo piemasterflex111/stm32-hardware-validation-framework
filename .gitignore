@@ -3,18 +3,16 @@ __pycache__/
 *.pyc
 .venv/
 
-# OS / editors
+# Editor
 .vscode/
-Thumbs.db
-Desktop.ini
 
-# Generated outputs
+# Test artifacts
 results/
 artifacts/
 
 # Private notes
 docs/_private/
-notes_private/
 
-# Local scratch artifacts
-_write*.txt
+# OS junk
+Thumbs.db
+Desktop.ini
