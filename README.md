@@ -1,37 +1,47 @@
-# Asynchronous Python Protocol Driver & Test Infrastructure Engine
+# Hardware Validation Bench
 
-A production-grade Python framework designed to handle real-time serial telemetry extraction, automated peripheral register checks, and high-speed protocol parsing over asynchronous communication streams. 
+Python utilities for operating and recording a small serial/CAN hardware bench. The repository is intentionally fail-closed: software tests can verify parsing and detection logic, but they do not establish that physical hardware was tested.
 
-This repository showcases advanced Python automation patterns, structural data decoding, and test infrastructure architecture, demonstrating how to build resilient software interfaces for complex, low-latency streaming endpoints.
+## Current state
 
-## 🏗️ Test Infrastructure & Protocol Architecture
+See [`PHYSICAL_VALIDATION_STATUS.md`](PHYSICAL_VALIDATION_STATUS.md). No supported serial device was connected during the latest audit, so physical validation remains blocked.
 
-```mermaid
-graph TD
-    A[Python Test Suite / Test Runner] --> B[Asynchronous Serial Interface Layer]
-    B --> C[Custom Stream Protocol Parser]
-    C --> D[Checksum Validation & Frame Decoding]
-    D --> E[Data Normalization Matrix]
-    E --> F[Structured CSV / Markdown Compliance Artifact Builder]
-```
+## Verification layers
 
-## ⚡ Technical Highlights
-
-* **Resilient Stream Parsing & Telemetry Handling:** Engineered an asynchronous, event-driven communication engine over virtual serial links. Implemented robust frame boundary detection, checksum validation algorithms, and error-recovery routines capable of handling malformed or noisy byte-streams.
-* **Automated Data Extraction & Normalization:** Built algorithmic data decoding pipelines to programmatically read multi-sensor registration blocks, normalize raw hex arrays into uniform metric schemas, and verify state consistency across long test execution runs.
-* **Structured Evidence & Log Synthesis:** Automatically translates raw, unstructured streaming telemetry into high-fidelity structured CSV, JSON, and clean Markdown validation logs, generating machine-readable audit artifacts.
-* **Decoupled Software Testing Foundations:** Implemented a robust test automation suite leveraging dependency injection and protocol mocking, allowing full parsing and core pipeline verification independent of any live streaming hardware interfaces.
-
-## 🧪 Automated Verification Suite
+### 1. Software verification
 
 ```bash
-$ pytest -v --tb=short
-============================= test session starts =============================
-collected 15 items
-
-tests/test_serial_protocol.py PASSED                                    [ 33%]
-tests/test_stream_decoder.py PASSED                                     [ 66%]
-tests/test_evidence_serialization.py PASSED                             [100%]
-
-========================== 15 passed in 1.12 seconds ==========================
+make verify
 ```
+
+This checks script syntax and hardware-detection logic. It is not a physical test.
+
+### 2. Hardware presence gate
+
+```bash
+make hardware-check
+```
+
+The command exits nonzero unless Linux exposes a serial interface such as `/dev/serial/by-id/...`, `/dev/ttyACM*`, or `/dev/ttyUSB*`.
+
+### 3. Explicit physical command/response check
+
+```bash
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements.txt
+.venv/bin/python scripts/run_uart_check.py \
+  --port /dev/serial/by-id/<device> \
+  --baud 115200 \
+  --command PING \
+  --expect PONG
+```
+
+A run records the selected device, command, exact response, raw bytes, timing, error state, and pass/fail result under `artifacts/physical/<timestamp>/`.
+
+## Evidence rule
+
+A hardware capability may be stated only when a physical evidence directory exists and identifies the actual device and observed response. Mock tests, virtual CAN, and simulated serial logs remain development aids only.
+
+## Existing helpers
+
+The `src/` directory retains serial, CAN, and VISA exploration utilities. They are reference code and are not described as production-grade or physically verified unless their behavior is covered by a recorded bench run.
